@@ -2,4 +2,7 @@
     <string name="question_text">Canberra is the capital of Australia.</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="app_name">GeoQuest</string>
 </resources>
