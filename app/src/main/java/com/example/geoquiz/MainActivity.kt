@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     )
 
     private var currentIndex = 0
+    private var currentScore = 0
+    private var locked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +40,15 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
 
         trueButton.setOnClickListener { view: View ->
-            checkAnswer(true)
+            if (locked == false){
+                checkAnswer(true)
+            }
         }
 
         falseButton.setOnClickListener { view: View ->
-            checkAnswer(false)
+            if (locked == false){
+                checkAnswer(false)
+            }
         }
 
         questionTextView.setOnClickListener {
@@ -67,11 +73,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
+        locked = false
+        if (currentIndex == 4) {
+            calculateScore()
+        }
         val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
+        locked = true
         val correctAnswer = questionBank[currentIndex].answer
 
         val messageResId = if (userAnswer == correctAnswer) {
@@ -80,6 +91,15 @@ class MainActivity : AppCompatActivity() {
             R.string.incorrect_toast
         }
 
+        if (userAnswer == correctAnswer) {
+            currentScore += 1
+        }
+
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun calculateScore() {
+        val score = (currentScore).toString()
+        Toast.makeText(this, score, Toast.LENGTH_LONG).show()
     }
 }

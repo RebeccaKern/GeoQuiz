@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="24dp"
-        tools:text="@string/question_australia"/>
+        tools:text="@string/question_australia" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,13 +23,13 @@
             android:id="@+id/true_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/true_button"/>
+            android:text="@string/true_button" />
 
         <Button
             android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/false_button"/>
+            android:text="@string/false_button" />
 
     </LinearLayout>
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/prev_button"
-            android:src="@drawable/arrow_left"/>
+            android:src="@drawable/arrow_left" />
 
         <ImageButton
             android:id="@+id/next_button"
@@ -53,7 +53,6 @@
             android:src="@drawable/arrow_right" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>
