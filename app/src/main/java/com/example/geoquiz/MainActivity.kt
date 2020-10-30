@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_b, true),
         Question(R.string.question_ac, false),
         Question(R.string.question_d, false),
-        Question(R.string.question_e, true))
+        Question(R.string.question_e, true)
+    )
 
     private var currentIndex = 0
 
@@ -36,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         prevButton = findViewById(R.id.prev_button)
         questionTextView = findViewById(R.id.question_text_view)
 
-        trueButton.setOnClickListener{ view: View ->
+        trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
         }
 
-        falseButton.setOnClickListener{ view: View ->
+        falseButton.setOnClickListener { view: View ->
             checkAnswer(false)
         }
 
@@ -49,12 +50,12 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
-        nextButton.setOnClickListener{
+        nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size
             updateQuestion()
         }
 
-        prevButton.setOnClickListener{
+        prevButton.setOnClickListener {
             currentIndex = (currentIndex - 1) % questionBank.size
             if (currentIndex < 0) {
                 currentIndex = currentIndex + questionBank.size
