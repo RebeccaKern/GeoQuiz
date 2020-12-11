@@ -25,31 +25,6 @@ class MainActivity : AppCompatActivity() {
     private var currentScore = 0
     private var locked = false
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy called")
-    }
-
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
@@ -59,10 +34,6 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
 
-        val provider: ViewModelProvider = ViewModelProviders.of(this)
-        val quizViewModel = provider.get(QuizViewModel::class.java)
-        Log.d(TAG, "Got quizvm: $quizViewModel")
-
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
@@ -70,63 +41,63 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
 
         trueButton.setOnClickListener { view: View ->
-            if (locked == false){
-                checkAnswer(true)
-            }
+//            if (locked == false){
+//                checkAnswer(true)
+//            }
         }
 
         falseButton.setOnClickListener { view: View ->
-            if (locked == false){
-                checkAnswer(false)
-            }
+//            if (locked == false){
+//                checkAnswer(false)
+//            }
         }
 
-        questionTextView.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
-            updateQuestion()
-        }
+//        questionTextView.setOnClickListener {
+//            currentIndex = (currentIndex + 1) % questionBank.size
+//            updateQuestion()
+//        }
 
         nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
-        prevButton.setOnClickListener {
-            currentIndex = (currentIndex - 1) % questionBank.size
-            if (currentIndex < 0) {
-                currentIndex = currentIndex + questionBank.size
-            }
-            updateQuestion()
-        }
+//        prevButton.setOnClickListener {
+//            currentIndex = (currentIndex - 1) % questionBank.size
+//            if (currentIndex < 0) {
+//                currentIndex = currentIndex + questionBank.size
+//            }
+//            updateQuestion()
+//        }
 
         updateQuestion()
     }
 
     private fun updateQuestion() {
         locked = false
-        if (currentIndex == 4) {
-            calculateScore()
-        }
-        val questionTextResId = questionBank[currentIndex].textResId
+//        if (currentIndex == 4) {
+//            calculateScore()
+//        }
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
 
-    private fun checkAnswer(userAnswer: Boolean) {
-        locked = true
-        val correctAnswer = questionBank[currentIndex].answer
-
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
-        } else {
-            R.string.incorrect_toast
-        }
-
-        if (userAnswer == correctAnswer) {
-            currentScore += 1
-        }
-
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-    }
+//    private fun checkAnswer(userAnswer: Boolean) {
+//        locked = true
+//        val correctAnswer = questionBank[currentIndex].answer
+//
+//        val messageResId = if (userAnswer == correctAnswer) {
+//            R.string.correct_toast
+//        } else {
+//            R.string.incorrect_toast
+//        }
+//
+//        if (userAnswer == correctAnswer) {
+//            currentScore += 1
+//        }
+//
+//        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+//    }
 
     private fun calculateScore() {
         val score = (currentScore).toString()
