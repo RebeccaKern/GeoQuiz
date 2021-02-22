@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         val correctAnswer = quizViewModel.currentQuestionAnswer
 
         val messageResId = when {
-            quizViewModel.isCheater -> R.string.judgement_toast
+            quizViewModel.isCheater == true -> R.string.judgement_toast
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
