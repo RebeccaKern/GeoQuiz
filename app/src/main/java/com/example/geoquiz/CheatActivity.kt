@@ -14,19 +14,23 @@ import kotlinx.android.synthetic.main.activity_cheat.*
 const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
 private const val DID_CHEAT = "cheat"
+private const val CHEAT_COUNT = "cheatcount"
 
 class CheatActivity : AppCompatActivity() {
 
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
     private lateinit var apiLevel: TextView
+    private lateinit var cheatCountTv: TextView
 
     private var answerIsTrue = false
     private var answerShown = false
+    private var cheatCount = 0
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(DID_CHEAT, answerShown)
+        outState.putInt(CHEAT_COUNT, cheatCount)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,19 +40,39 @@ class CheatActivity : AppCompatActivity() {
         answerShown = savedInstanceState?.getBoolean(DID_CHEAT, false) ?: false
         setAnswerShownResult(answerShown)
 
+        cheatCountTv = findViewById(R.id.tv_cheat_count)
+        cheatCount = savedInstanceState?.getInt(CHEAT_COUNT, 0) ?: 0
+        cheatCountTv.setText(cheatCount.toString())
+
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
         answerTextView = findViewById(R.id.answer_text_view)
         showAnswerButton = findViewById(R.id.show_answer_button)
-        showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
+
+        if (cheatCount >= 3) {
+            showAnswerButton.isEnabled = false
+        } else {
+            showAnswerButton.setOnClickListener {
+                addCheat()
+                val answerText = when {
+                    answerIsTrue -> R.string.true_button
+                    else -> R.string.false_button
+                }
+                answerTextView.setText(answerText)
+                setAnswerShownResult(true)
             }
-            answerTextView.setText(answerText)
-            setAnswerShownResult(true)
         }
         apiLevel = findViewById(R.id.tv_api_level)
         apiLevel.setText(Build.VERSION.SDK_INT.toString())
+    }
+
+    private fun addCheat()
+    {
+        cheatCount += 1
+        cheatCountTv.setText(cheatCount.toString())
+        val data = Intent().apply {
+            putExtra(CHEAT_COUNT, cheatCount)
+        }
+        setResult(Activity.RESULT_OK, data)
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {
